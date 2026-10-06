@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TransitHub Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">🚆</div>
+
+            <div>
+                <h2>TransitHub</h2>
+                <span>Transport System</span>
+            </div>
+        </div>
+
+        <nav class="navigation">
+
+            <a href="/" class="nav-item active">
+                <span>🏠</span>
+                Dashboard
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>🚆</span>
+                Trains
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>🚌</span>
+                Buses
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>🛣️</span>
+                Routes
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>🎫</span>
+                Bookings
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>👥</span>
+                Passengers
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>💳</span>
+                Payments
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-box">
+                <div class="admin-avatar">A</div>
+
+                <div>
+                    <strong>Admin</strong>
+                    <small>Administrator</small>
+                </div>
+
+                <span class="online-dot"></span>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+        <!-- TOP HEADER -->
+
+        <header class="top-header">
+
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome back, Admin 👋</p>
+            </div>
+
+            <div class="header-right">
+
+                <div class="live-indicator">
+                    <span></span>
+                    LIVE
+                </div>
+
+                <div class="date-box">
+                    📅 <span id="currentDate">30 Sep 2026</span>
+                </div>
+
+                <div class="profile">
+                    <div class="profile-avatar">A</div>
+
+                    <div>
+                        <strong>Admin</strong>
+                        <small>System Manager</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= STAT CARDS ================= -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card purple">
+
+                <div class="stat-top">
+                    <span class="stat-title">Active Trains</span>
+                    <div class="stat-icon">🚆</div>
+                </div>
+
+                <div class="stat-number">
+                    {{ train_count }}
+                </div>
+
+                <div class="stat-bottom">
+                    <span class="positive">● Running</span>
+                    <span>Today</span>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card blue">
+
+                <div class="stat-top">
+                    <span class="stat-title">Active Buses</span>
+                    <div class="stat-icon">🚌</div>
+                </div>
+
+                <div class="stat-number">
+                    {{ bus_count }}
+                </div>
+
+                <div class="stat-bottom">
+                    <span class="positive">● Active</span>
+                    <span>Today</span>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card orange">
+
+                <div class="stat-top">
+                    <span class="stat-title">Today's Bookings</span>
+                    <div class="stat-icon">🎫</div>
+                </div>
+
+                <div class="stat-number">
+                    {{ booking_count }}
+                </div>
+
+                <div class="stat-bottom">
+                    <span class="positive">↗ Updated</span>
+                    <span>Today</span>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card green">
+
+                <div class="stat-top">
+                    <span class="stat-title">Today's Revenue</span>
+                    <div class="stat-icon">💰</div>
+                </div>
+
+                <div class="stat-number">
+                    ₹{{ "%.0f"|format(revenue) }}
+                </div>
+
+                <div class="stat-bottom">
+                    <span class="positive">↗ Revenue</span>
+                    <span>Today</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= MAIN GRID ================= -->
+
+        <section class="content-grid">
+
+
+            <!-- LIVE DEPARTURES -->
+
+            <div class="panel departures-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <h2>Live Departures</h2>
+                        <p>Today's upcoming services</p>
+                    </div>
+
+                    <button class="view-button">
+                        View All →
+                    </button>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Transport</th>
+                                <th>Route</th>
+                                <th>Departure</th>
+                                <th>Arrival</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    <div class="transport">
+                                        <div class="transport-icon train">🚆</div>
+
+                                        <div>
+                                            <strong>12123</strong>
+                                            <small>Deccan Express</small>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <strong>Mumbai → Pune</strong>
+                                </td>
+
+                                <td>
+                                    <strong>14:00</strong>
+                                </td>
+
+                                <td>
+                                    17:30
+                                </td>
+
+                                <td>
+                                    <span class="status on-time">
+                                        ● ON TIME
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <div class="transport">
+                                        <div class="transport-icon train">🚆</div>
+
+                                        <div>
+                                            <strong>11025</strong>
+                                            <small>Pune Nashik Express</small>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <strong>Pune → Nashik</strong>
+                                </td>
+
+                                <td>
+                                    <strong>15:30</strong>
+                                </td>
+
+                                <td>
+                                    19:30
+                                </td>
+
+                                <td>
+                                    <span class="status delayed">
+                                        ● DELAYED 20m
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <div class="transport">
+                                        <div class="transport-icon bus">🚌</div>
+
+                                        <div>
+                                            <strong>MH12AB1234</strong>
+                                            <small>Shivneri Express</small>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <strong>Pune → Mumbai</strong>
+                                </td>
+
+                                <td>
+                                    <strong>14:30</strong>
+                                </td>
+
+                                <td>
+                                    18:00
+                                </td>
+
+                                <td>
+                                    <span class="status boarding">
+                                        ● BOARDING
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <div class="transport">
+                                        <div class="transport-icon bus">🚌</div>
+
+                                        <div>
+                                            <strong>MH12CD5678</strong>
+                                            <small>Pune Nashik Volvo</small>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <strong>Pune → Nashik</strong>
+                                </td>
+
+                                <td>
+                                    <strong>16:00</strong>
+                                </td>
+
+                                <td>
+                                    20:00
+                                </td>
+
+                                <td>
+                                    <span class="status on-time">
+                                        ● ON TIME
+                                    </span>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- SYSTEM STATUS -->
+
+            <div class="panel system-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <h2>System Status</h2>
+                        <p>Live system overview</p>
+                    </div>
+
+                    <span class="live-dot"></span>
+
+                </div>
+
+
+                <div class="system-item">
+
+                    <div class="system-left">
+                        <div class="system-icon purple-bg">🚆</div>
+
+                        <div>
+                            <strong>Train Services</strong>
+                            <small>All systems operational</small>
+                        </div>
+                    </div>
+
+                    <span class="system-status">Online</span>
+
+                </div>
+
+
+                <div class="system-item">
+
+                    <div class="system-left">
+                        <div class="system-icon blue-bg">🚌</div>
+
+                        <div>
+                            <strong>Bus Services</strong>
+                            <small>All systems operational</small>
+                        </div>
+                    </div>
+
+                    <span class="system-status">Online</span>
+
+                </div>
+
+
+                <div class="system-item">
+
+                    <div class="system-left">
+                        <div class="system-icon orange-bg">💳</div>
+
+                        <div>
+                            <strong>Payment Gateway</strong>
+                            <small>Transactions processing</small>
+                        </div>
+                    </div>
+
+                    <span class="system-status">Online</span>
+
+                </div>
+
+
+                <div class="system-item">
+
+                    <div class="system-left">
+                        <div class="system-icon green-bg">🗄️</div>
+
+                        <div>
+                            <strong>Database</strong>
+                            <small>MySQL connected</small>
+                        </div>
+                    </div>
+
+                    <span class="system-status">Online</span>
+
+                </div>
+
+
+                <div class="system-footer">
+
+                    <span>Last updated</span>
+
+                    <strong id="lastUpdated">
+                        Just now
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= QUICK ACTIONS ================= -->
+
+        <section class="quick-section">
+
+            <div class="section-title">
+
+                <div>
+                    <h2>Quick Actions</h2>
+                    <p>Manage your transport system</p>
+                </div>
+
+            </div>
+
+
+            <div class="quick-grid">
+
+                <div class="quick-card">
+                    <div class="quick-icon purple-bg">🚆</div>
+                    <strong>Manage Trains</strong>
+                    <span>Add or update trains</span>
+                </div>
+
+                <div class="quick-card">
+                    <div class="quick-icon blue-bg">🚌</div>
+                    <strong>Manage Buses</strong>
+                    <span>Manage bus fleet</span>
+                </div>
+
+                <div class="quick-card">
+                    <div class="quick-icon orange-bg">🎫</div>
+                    <strong>Bookings</strong>
+                    <span>View all bookings</span>
+                </div>
+
+                <div class="quick-card">
+                    <div class="quick-icon green-bg">📊</div>
+                    <strong>Reports</strong>
+                    <span>View system reports</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+
+            <span>© 2026 TransitHub</span>
+
+            <span>
+                Railway & Bus Management System
+            </span>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    function updateTime() {
+
+        const now = new Date();
+
+        const options = {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        };
+
+        document.getElementById("currentDate").textContent =
+            now.toLocaleDateString("en-IN", options);
+
+        document.getElementById("lastUpdated").textContent =
+            now.toLocaleTimeString("en-IN", {
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+
+    }
+
+    updateTime();
+
+    setInterval(updateTime, 1000);
+
+</script>
+
+</body>
+</html>
